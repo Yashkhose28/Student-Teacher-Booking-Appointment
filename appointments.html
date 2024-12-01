@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+</head>
+<body>
+  <div class="appointment-container">
+    <h1>Book Appointment</h1>
+    <input type="text" id="studentName" placeholder="Student Name" required>
+    <input type="text" id="teacherName" placeholder="Teacher Name" required>
+    <input type="date" id="appointmentDate" required>
+    <input type="time" id="appointmentTime" required>
+    <button onclick="bookAppointment()">Book Appointment</button>
+    <button onclick="window.location.href='view.html'">View Appointments</button>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function bookAppointment() {
+      const studentName = document.getElementById('studentName').value;
+      const teacherName = document.getElementById('teacherName').value;
+      const appointmentDate = document.getElementById('appointmentDate').value;
+      const appointmentTime = document.getElementById('appointmentTime').value;
+
+      if (studentName && teacherName && appointmentDate && appointmentTime) {
+        const appointmentData = {
+          studentName,
+          teacherName,
+          date: appointmentDate,
+          time: appointmentTime,
+          status: 'Pending'
+        };
+        database.ref('appointments').push(appointmentData)
+          .then(() => {
+            alert('Appointment booked successfully.');
+            document.getElementById('studentName').value = '';
+            document.getElementById('teacherName').value = '';
+            document.getElementById('appointmentDate').value = '';
+            document.getElementById('appointmentTime').value = '';
+          })
+          .catch((error) => {
+            alert('Error: ' + error.message);
+          });
+      } else {
+        alert('Please fill out all fields.');
+      }
+    }
+  </script>
+</body>
+</html>

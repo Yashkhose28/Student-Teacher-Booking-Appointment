@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student-Teacher Booking Appointment</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+  
+</head>
+<body>
+  <div class="container">
+    <h1 id="page-title">Login</h1>
+
+    <!-- Login Section -->
+    <div id="auth-section">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button ondblclick="showBookAppointment()">Login</button>
+      <p>Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
+    </div>
+
+    <!-- Book Appointment Section -->
+    <div id="appointment-section" style="display: none;">
+      <h1>Book Appointment</h1>
+      <input type="text" id="student-name" placeholder="Student Name" required>
+      <input type="text" id="teacher-name" placeholder="Teacher Name" required>
+      <input type="date" id="appointment-date" required>
+      <input type="time" id="appointment-time" required>
+      <button onclick="bookAppointment()">Book Appointment</button>
+      <button onclick="navigateToAppointments()">View Appointments</button>
+    </div>
+
+    
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

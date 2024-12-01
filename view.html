@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Appointments</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js"></script>
+</head>
+<body>
+  <h1>Manage Appointments</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Teacher Name</th>
+        <th>Appointment Date</th>
+        <th>Appointment Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="appointmentList"></tbody>
+  </table>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    function loadAppointments() {
+      const appointmentList = document.getElementById('appointmentList');
+      appointmentList.innerHTML = '';
+
+      database.ref('appointments').on('value', (snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+          const appointment = childSnapshot.val();
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${appointment.studentName}</td>
+            <td>${appointment.teacherName}</td>
+            <td>${appointment.date}</td>
+            <td>${appointment.time}</td>
+            <td>${appointment.status}</td>
+          `;
+          appointmentList.appendChild(row);
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadAppointments);
+  </script>
+</body>
+</html>
